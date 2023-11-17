@@ -3,6 +3,10 @@
 This is the official implementation of the paper Initiative Defense against Voice Conversion through Generative
 Adversarial Network.
 
+## The intention of our work
+![vc_model drawio](https://github.com/predawnang/Initiative-Defense-against-Voice-Conversion-through-Generative-Adversarial-Network/assets/37857978/38a0e5f3-d86b-440b-8fe8-0f6073ee3983)
+The left part of the figure represents the normal voice conversion process, while the right part illustrates the intention of our work. We introduce perturbations to the mel spectrogram of the target audio to prevent the voice conversion model from generating the intended output.
+
 ## VC Models
 
 1. Adain-vc: https://github.com/jjery2243542/adaptive_voice_conversion?utm_source=catalyzex.com
