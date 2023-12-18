@@ -4,12 +4,31 @@ This is the official implementation of the paper Initiative Defense against Voic
 Adversarial Network.
 
 ## The intention of our work
+
 ![vc_model drawio](https://github.com/predawnang/Initiative-Defense-against-Voice-Conversion-through-Generative-Adversarial-Network/assets/37857978/38a0e5f3-d86b-440b-8fe8-0f6073ee3983)
 The left part of the figure represents the normal voice conversion process, while the right part illustrates the intention of our work. We introduce perturbations to the mel spectrogram of the target audio to prevent the voice conversion model from generating the intended output.
 
+## The architectural detail of the our work
+
+The SE-ResNet blocks were proposed by ECAPA-TDNN, and the details of the SE-ResNet blocks can be found in the original paper [here](https://arxiv.org/abs/2005.07143).
+
+In the architectural detail graph below, "Conv1D + ReLU + BN" represents a 1D convolutional block consisting of 1D convolutional layers, a ReLU activation function, and batch normalization. "ConvTrans1D" denotes a 1D transposed convolution layer. "k" indicates the kernel size, "d" represents the dilation, "C" signifies the channel size, and "T" denotes the relative time length of the input mel-spectrogram.
+
+### Generator
+
+![netG](./images/netG.png)
+
+### Discriminator
+
+![netD](./images/netD.png)
+
+### SWCSM
+
+![SWCSM](./images/swcsm.png)
+
 ## VC Models
 
-1. Adain-vc: https://github.com/jjery2243542/adaptive_voice_conversion?utm_source=catalyzex.com
+1. Adain-vc: https://github.com/cyhuang-tw/AdaIN-VC
 2. Vqvc+: https://github.com/ericwudayi/SkipVQVC
 3. Again-vc: https://github.com/KimythAnly/AGAIN-VC
 4. Triaan-vc: https://github.com/winddori2002/TriAAN-VC
@@ -25,6 +44,7 @@ Resemblyzer: https://github.com/resemble-ai/Resemblyzer
 ## Dataset
 
 VCTK: https://datashare.ed.ac.uk/handle/10283/2950
+Experimental samples can be found in the 'samples' folder under this repository.
 
 ## Training
 

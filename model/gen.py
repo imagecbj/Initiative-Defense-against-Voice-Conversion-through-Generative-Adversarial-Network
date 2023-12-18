@@ -18,7 +18,9 @@ class Generator(nn.Module):
         self.layer9 = ConvTranspose1dReluBn(64, 128, kernel_size=5, padding=2)
         self.layer10 = ConvTranspose1dReluBn(128, 256, kernel_size=5, padding=2)
         self.layer11 = ConvTranspose1dReluBn(256, 512, kernel_size=5, padding=2)
-        self.layer12 = ConvTranspose1dReluBn(channels, in_channels, kernel_size=5, padding=2)
+        self.layer12 = ConvTranspose1dReluBn(
+            channels, in_channels, kernel_size=5, padding=2
+        )
 
         self.tanh = nn.Tanh()
 
