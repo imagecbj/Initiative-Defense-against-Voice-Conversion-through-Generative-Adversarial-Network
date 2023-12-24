@@ -33,7 +33,11 @@ In the architectural detail graph below, "Conv1D + ReLU + BN" represents a 1D co
 3. Again-vc: https://github.com/KimythAnly/AGAIN-VC
 4. Triaan-vc: https://github.com/winddori2002/TriAAN-VC
 
-## vocoder && data preprocessing
+## Conda env creation
+
+Use `conda env create -f cc.yaml` to create conda env.
+
+## Vocoder && data preprocessing
 
 Melgan: https://github.com/descriptinc/melgan-neurips
 
@@ -43,8 +47,12 @@ Resemblyzer: https://github.com/resemble-ai/Resemblyzer
 
 ## Dataset
 
-VCTK: https://datashare.ed.ac.uk/handle/10283/2950
-Experimental samples can be found in the 'samples' folder under this repository.
+- VCTK: https://datashare.ed.ac.uk/handle/10283/2950.
+- Experimental samples can be found in the 'samples' folder under this repository.
+
+## checkpoints
+
+The `checkpoints/netG` folder contains the weights of the generator, and `checkpoints/swcsm` contains the weights of the swcsm.
 
 ## Training
 
@@ -56,15 +64,14 @@ hyper-parameter settings are all in the file hyperparameter.py. You can adjust t
 
 #### Setup hyperparameter.py
 
-1. Set the feild sefl.project_root to the path of this repository.
-2. Set the feild self.vctk_48k to the path of the VCTK dataset.
+1. Set the field `self.project_root` to the path of this repository. For steps 2-7, you can place all the data under the `data` folder within this repository.
+2. Set the feild self.vctk_48k to the path of the VCTK dataset. e.g. `/you/path/to/the/VCTK-Corpus-0.92/wav48_silence_trimmed`, or put it under the `data` folder of this repo.
 3. Set the feild self.vctk_22k to the path where you want to place resampled waveform.
-4. Set the feild self.vctk_training_data to the path where you want to store the processed mel.
+4. Set the feild self.vctk_mels to the path where you want to store the processed mel.
 5. Set the feild self.vctk_speaker_info to the path of the VCTK speaker-info.txt file.
 6. Set the feild self.metadata to the path where you place metadata.json.
 7. Set the feild self.vctk_rec_mels to the path where you want to place vctk_rec_mels which are mels that reconstruct to
    the waveform and re-extract with melgan preprocessing.
-8. Set the feild self.vqvcp_model to the path where you place the weights of the vqvcp.
 
 #### Preprocessing
 

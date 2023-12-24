@@ -4,7 +4,7 @@ import torch.cuda
 
 class HyParams:
     def __init__(self):
-        self.project_root = "/home/lab/workspace/works/chanchan/work_1"
+        self.project_root = "/home/lab/workspace/works/chanchan/Initiative-Defense-against-Voice-Conversion-through-Generative-Adversarial-Network"
         self.sample_rate = 22050
         self.ref_db = 20.0
         self.dc_db = 100.0
@@ -18,19 +18,53 @@ class HyParams:
         self.lambda_adv_l2 = 1
         self.lambda_quality = 10
 
-        self.vctk_speaker_info = self.__path_join(self.project_root, "data/VCTK-Corpus-0.92/speaker-info.txt")
+        self.vctk_speaker_info = self.__path_join(
+            self.project_root, "data/VCTK-Corpus-0.92/speaker-info.txt"
+        )
         self.vctk_txt = self.__path_join(self.project_root, "data/VCTK-Corpus-0.92/txt")
         self.vctk_spk_txt = self.__path_join(self.project_root, "data/spk_txt.json")
         self.metadata = self.__path_join(self.project_root, "data/metadata.json")
         self.gender_info = self.__path_join(self.project_root, "data/gender_info.json")
         self.vqvcp_model = self.__path_join(self.project_root, "target/vqvcp/gen")
-        self.saved_pt = self.__path_join(self.project_root,
-                                         "pts")
+        self.saved_pt = self.__path_join(self.project_root, "pts")
         self.temp_folder = self.__path_join(self.project_root, "temp")
         self.vctk_mels = self.__path_join(self.project_root, "data/mels")
-        self.vctk_48k = self.__path_join(self.project_root, "VCTK-Corpus-0.92/wav48_silence_trimmed")
+        self.vctk_48k = self.__path_join(
+            self.project_root, "VCTK-Corpus-0.92/wav48_silence_trimmed"
+        )
         self.vctk_22k = self.__path_join(self.project_root, "data/vctk_22k")
-        self.vctk_rec_mels = self.__path_join(self.project_root, "data/reconstruct_mels")
+        self.vctk_rec_mels = self.__path_join(self.project_root, "data/rec_mels")
+        self.vctk_eer = self.__path_join(
+            self.project_root,
+            "metrics/speaker_verification/equal_error_rate/VCTK_eer.yaml",
+        )
+        self.d_net = self.__path_join(self.project_root, "checkpoints/swcsm/d_net.pt")
+        self.test_set = [
+            "p236",
+            "p237",
+            "p240",
+            "p262",
+            "p268",
+            "p274",
+            "p280",
+            "p286",
+            "p299",
+            "p301",
+            "p302",
+        ]
+        self.valid_set = [
+            "p246",
+            "s5",
+            "p362",
+            "p253",
+            "p263",
+            "p267",
+            "p248",
+            "p306",
+            "p276",
+            "p252",
+            "p264",
+        ]
 
     def __path_join(self, project_root, relative_path):
         root = os.path.join(project_root, relative_path)

@@ -13,14 +13,14 @@ from hyperparameter import hp
 
 class Audio2Mel(nn.Module):
     def __init__(
-            self,
-            n_fft=1024,
-            hop_length=256,
-            win_length=1024,
-            sampling_rate=22050,
-            n_mel_channels=80,
-            mel_fmin=0.0,
-            mel_fmax=None,
+        self,
+        n_fft=1024,
+        hop_length=256,
+        win_length=1024,
+        sampling_rate=22050,
+        n_mel_channels=80,
+        mel_fmin=0.0,
+        mel_fmax=None,
     ):
         super().__init__()
         ##############################################
@@ -55,7 +55,7 @@ class Audio2Mel(nn.Module):
             center=False,
         )
         real_part, imag_part = fft.unbind(-1)
-        magnitude = torch.sqrt(real_part ** 2 + imag_part ** 2)
+        magnitude = torch.sqrt(real_part**2 + imag_part**2)
         mel_output = torch.matmul(self.mel_basis, magnitude)
         log_mel_spec = torch.log10(torch.clamp(mel_output, min=1e-5))
         return log_mel_spec
@@ -103,12 +103,12 @@ def save_resampled_22k(wav_path, save_path):
 
 def normalizer(mels):
     db_mels = 20 * mels
-    norm_mels = torch.clamp((db_mels - hp.ref_db + hp.dc_db) / hp.dc_db, min=1e-8, max=1)
+    norm_mels = (db_mels - hp.ref_db + hp.dc_db) / hp.dc_db
     return norm_mels
 
 
 def denormalizer(norm_mels):
-    db_mels = (torch.clamp(norm_mels, min=1e-8, max=1) * hp.dc_db) - hp.dc_db + hp.ref_db
+    db_mels = (norm_mels * hp.dc_db) - hp.dc_db + hp.ref_db
     mels = db_mels / 20
     return mels
 
@@ -131,9 +131,10 @@ def vctk_48_2_22(vctk_48k_path, vctk_22k_path):
                 speech, speech_sr = librosa.core.load(wav, sr=22050)
                 speech, index = librosa.effects.trim(speech, top_db=20)
                 soundfile.write(
-                    file=vctk_22k_path / spk.name / f'{stem_without_mic}.wav',
+                    file=vctk_22k_path / spk.name / f"{stem_without_mic}.wav",
                     data=speech,
-                    samplerate=hp.sample_rate)
+                    samplerate=hp.sample_rate,
+                )
     print("Done")
 
 

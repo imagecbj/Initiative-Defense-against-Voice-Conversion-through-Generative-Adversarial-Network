@@ -35,7 +35,7 @@ class Trainer:
 
     def load_SWCSM(self):
         d = SWCSM().to(hp.device)
-        d.load_state_dict(torch.load('d_net.pt'))
+        d.load_state_dict(torch.load(hp.d_net))
         d.eval()
         return d
 
@@ -43,14 +43,14 @@ class Trainer:
         pt_path = Path(hp.saved_pt)
         pt_path.mkdir(exist_ok=True, parents=True)
         torch.save(
-            {'netG': self.netG.state_dict()}, pt_path / f"epoch_{epoch}_netG_{hp.pm}"
+            {"netG": self.netG.state_dict()}, pt_path / f"epoch_{epoch}_netG_{hp.pm}"
         )
-        torch.save({'netD': self.netD.state_dict()}, pt_path / f"epoch_{epoch}_netD_{hp.pm}")
         torch.save(
-            {
-                'G': self.optimizer_G.state_dict(),
-                'D': self.optimizer_D.state_dict()
-            }, pt_path / f"epoch_{epoch}_opt_{hp.pm}"
+            {"netD": self.netD.state_dict()}, pt_path / f"epoch_{epoch}_netD_{hp.pm}"
+        )
+        torch.save(
+            {"G": self.optimizer_G.state_dict(), "D": self.optimizer_D.state_dict()},
+            pt_path / f"epoch_{epoch}_opt_{hp.pm}",
         )
         print(f"========SAVING PTS IN {pt_path}=========")
         return pt_path / f"epoch_{epoch}_netG_{hp.pm}"
@@ -73,21 +73,16 @@ class Trainer:
 
             loss_D_real = F.mse_loss(
                 pred_real,
-                real_label_factor
-                * torch.ones_like(pred_real, device=hp.device),
+                real_label_factor * torch.ones_like(pred_real, device=hp.device),
             )
             pred_fake = self.netD(adv.detach())
 
             loss_D_fake = F.mse_loss(
                 pred_fake,
-                fake_label_factor
-                + torch.zeros_like(pred_fake, device=hp.device),
+                fake_label_factor + torch.zeros_like(pred_fake, device=hp.device),
             )
 
-            loss_D_GAN = (
-                    loss_D_real
-                    + loss_D_fake
-            )
+            loss_D_GAN = loss_D_real + loss_D_fake
 
             loss_D_GAN.backward()
             self.optimizer_D.step()
@@ -101,11 +96,11 @@ class Trainer:
             pred_fake = self.netD(adv)
             loss_G_GAN = F.mse_loss(
                 pred_fake,
-                real_label_factor
-                * torch.ones_like(pred_fake, device=hp.device),
+                real_label_factor * torch.ones_like(pred_fake, device=hp.device),
             )
-            adv = self.distort(adv)
+
             loss_quality = self.mse(adv, x)
+            adv = self.distort(adv)
 
             adv = denormalizer(adv)
             x = denormalizer(x)
@@ -113,16 +108,21 @@ class Trainer:
 
             adv_l2_loss = -self.vc_model.adv_loss(adv, x, src)
 
-            loss_G = loss_G_GAN + hp.lambda_adv_l2 * adv_l2_loss + hp.lambda_quality * loss_quality
+            loss_G = (
+                loss_G_GAN
+                + hp.lambda_adv_l2 * adv_l2_loss
+                + hp.lambda_quality * loss_quality
+            )
 
             loss_G.backward()
             self.optimizer_G.step()
 
         print(
-            f"loss_D_GAN: {loss_D_GAN} | loss_G_GAN: {loss_G_GAN} | adv_l2: {adv_l2_loss}  | mse: {loss_quality}\r")
+            f"loss_D_GAN: {loss_D_GAN} | loss_G_GAN: {loss_G_GAN} | adv_l2: {adv_l2_loss}  | mse: {loss_quality}\r"
+        )
 
     def train(
-            self,
+        self,
     ):
         self.seed_everything(hp.seed)
         for epoch in range(hp.epochs):
