@@ -1,8 +1,6 @@
 import yaml
 
 from pathlib import Path
-from tqdm import tqdm
-from resemblyzer import VoiceEncoder, preprocess_wav
 from metrics import evaluate_sim
 
 
