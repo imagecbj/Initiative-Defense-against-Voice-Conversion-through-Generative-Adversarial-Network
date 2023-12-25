@@ -1,7 +1,10 @@
+import warnings
 import yaml
 
 from pathlib import Path
 from metrics import evaluate_sim
+
+warnings.filterwarnings("ignore")
 
 
 def evalation(root, alg_tags):
@@ -13,7 +16,7 @@ def evalation(root, alg_tags):
             for sub in vcs:
                 for target in vcs:
                     f.write(
-                        f"sub: {sub} | target: {target} | {evaluate_sim(root, f'cvt_{target}_{tag}_0075_{sub.name}_*')}\n"
+                        f"sub: {sub} | target: {target} | {evaluate_sim(root, f'cvt_{target}_{tag}_0075_{sub}_*')}\n"
                     )
                 f.write(f"quality: {evaluate_sim(root, f'{tag}_0075_{sub}_*')}\n")
             f.write("\n")

@@ -26,11 +26,11 @@ class HyParams:
         self.metadata = self.__path_join(self.project_root, "data/metadata.json")
         self.gender_info = self.__path_join(self.project_root, "data/gender_info.json")
         self.vqvcp_model = self.__path_join(self.project_root, "target/vqvcp/gen")
-        self.saved_pt = self.__path_join(self.project_root, "pts")
+        self.saved_pt = self.__path_join(self.project_root, "checkpoints/netG")
         self.temp_folder = self.__path_join(self.project_root, "temp")
         self.vctk_mels = self.__path_join(self.project_root, "data/mels")
         self.vctk_48k = self.__path_join(
-            self.project_root, "VCTK-Corpus-0.92/wav48_silence_trimmed"
+            self.project_root, "data/VCTK-Corpus-0.92/wav48_silence_trimmed"
         )
         self.vctk_22k = self.__path_join(self.project_root, "data/vctk_22k")
         self.vctk_rec_mels = self.__path_join(self.project_root, "data/rec_mels")
